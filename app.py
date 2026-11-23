@@ -10,7 +10,7 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__)
+app = Flask(__name__, instance_path=os.getenv("INSTANCE_PATH", "/tmp/civiceye_instance") if os.getenv("VERCEL") else None)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "change-this-before-deployment")
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///civiceye.db").replace("postgres://", "postgresql://", 1)
 if app.config["SQLALCHEMY_DATABASE_URI"].startswith("mysql://"):
